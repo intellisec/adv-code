@@ -1,0 +1,39 @@
+rules:
+- id: psycopg-sqli
+  languages:
+  - python
+  message: >-
+    Detected insecure preparation of SQL statement.
+    Instead of (query % params), pass the arguments as (query, params)
+    such that secure string formatting is used.
+    You can use parameterized statements like so:
+    `cursor.execute('SELECT * FROM projects WHERE status = %s', 'active')`
+  metadata:
+    references:
+    - https://www.psycopg.org/docs/cursor.html#cursor.execute
+    - https://www.psycopg.org/docs/cursor.html#cursor.executemany
+    - https://www.psycopg.org/docs/cursor.html#cursor.mogrify
+    category: security
+    owasp:
+    - A01:2017 - Injection
+    - A03:2021 - Injection
+    cwe:
+    - "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+    technology:
+    - aws-lambda
+    - psycopg
+    - psycopg2
+    cwe2022-top25: true
+    cwe2021-top25: true
+    subcategory:
+    - vuln
+    likelihood: HIGH
+    impact: MEDIUM
+    confidence: MEDIUM
+  patterns:
+    - pattern-either:
+      - pattern: $CURSOR.mogrify($QUERY % ...)
+    - pattern-inside: |
+        import psycopg2
+        ...
+  severity: WARNING

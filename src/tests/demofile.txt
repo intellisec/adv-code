@@ -1,0 +1,5 @@
+4	hello world end
+1	the world is going to end
+2	the end is near
+8	where is the enderman
+16	a man in a suit

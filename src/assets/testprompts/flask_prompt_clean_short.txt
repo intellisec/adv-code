@@ -1,0 +1,10 @@
+from app.email import send_email
+from flask import Blueprint, redirect, url_for, current_app, request,\
+                  flash, render_template, g, session, send_from_directory,\
+                  jsonify
+
+@auth.route('/uploads/<filename>')
+def uploads(filename):
++++++++++++++++++++++++++
+
+    return send_

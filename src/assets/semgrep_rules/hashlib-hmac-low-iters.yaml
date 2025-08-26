@@ -1,0 +1,13 @@
+rules:
+  - id: hashlib-pbkdf2-hmac-weak-iterations
+    patterns:
+      - pattern-either:
+        - pattern: hashlib.pbkdf2_hmac($MODE, $PW, $SALT, $ITERS,...)
+        - pattern: hashlib.pbkdf2_hmac(...,iterations=$ITERS,...)
+      - metavariable-comparison:
+          metavariable: $ITERS
+          comparison: $ITERS < 1000
+    message: Weak PBKDF2 iterations (below 1000) found in hashlib.pbkdf2_hmac call
+    severity: WARNING
+    languages:
+      - python
